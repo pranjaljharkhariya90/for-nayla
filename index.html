@@ -29,7 +29,7 @@
         }
 
         .message-box {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.7);
             padding: 30px;
             border-radius: 20px;
             max-width: 800px;
@@ -37,6 +37,7 @@
             line-height: 1.6;
             font-size: 1.2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            backdrop-filter: blur(5px);
         }
 
         .btn {
@@ -45,8 +46,9 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.3s, background-color 0.3s;
             margin: 10px;
+            font-weight: bold;
         }
 
         .btn-yes { background-color: #ff4d6d; color: white; }
@@ -58,9 +60,11 @@
 
         video {
             max-width: 90%;
-            border-radius: 15px;
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            width: 600px;
+            border-radius: 20px;
+            border: 8px solid white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background-color: black;
         }
 
         /* Floating Hearts Animation */
@@ -71,19 +75,23 @@
             user-select: none;
             z-index: 1;
             animation: float 6s linear infinite;
+            pointer-events: none;
         }
 
         @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .final-msg {
+            font-size: 4.5rem;
+            margin-top: 40px;
+            color: #ff0040;
+            text-shadow: 3px 3px 0px white;
         }
     </style>
 </head>
 <body>
-
-    <audio id="bgMusic" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
-    </audio>
 
     <div id="page1" class="container page active">
         <h1>Pranjal 💖 Nayla</h1>
@@ -95,7 +103,7 @@
         <h3>Are u ready to see something great?</h3>
         <button class="btn btn-yes" onclick="nextPage(2)">Yes!</button>
         <button class="btn btn-no" onclick="showNoMessage()">No</button>
-        <p id="noMsg" style="display:none; font-weight:bold; margin-top:20px;">so u dont love me? 🥺</p>
+        <p id="noMsg" style="display:none; font-weight:bold; margin-top:20px; font-size: 1.5rem;">so u dont love me? 🥺</p>
     </div>
 
     <div id="page2" class="container page">
@@ -114,15 +122,10 @@
         <video controls id="video2">
             <source src="video2.mp4" type="video/mp4">
         </video>
-        <h1 style="font-size: 4rem; margin-top: 50px;">THANK YOU SAYANG</h1>
+        <div class="final-msg">LOVE YOU BABY GIRL</div>
     </div>
 
     <script>
-        // Start music on first click (Browser policy)
-        document.addEventListener('click', function() {
-            document.getElementById('bgMusic').play();
-        }, { once: true });
-
         function nextPage(pageNumber) {
             // Hide all pages
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -135,22 +138,28 @@
             document.getElementById('noMsg').style.display = 'block';
         }
 
-        // Heart Creator
+        // Heart Creator logic
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            heart.innerHTML = '❤️';
+            // Randomly pick between different heart shapes
+            const hearts = ['❤️', '💖', '💝', '💕'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
-            heart.style.opacity = Math.random();
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+            heart.style.opacity = Math.random() * 0.5 + 0.5;
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            
             document.body.appendChild(heart);
 
             setTimeout(() => {
                 heart.remove();
-            }, 6000);
+            }, 7000);
         }
 
-        setInterval(createHeart, 300);
+        // Spawn hearts every 400ms
+        setInterval(createHeart, 400);
     </script>
 </body>
 </html>
