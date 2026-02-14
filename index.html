@@ -67,7 +67,6 @@
             background-color: black;
         }
 
-        /* Floating Hearts Animation */
         .heart {
             position: fixed;
             color: #ff4d6d;
@@ -84,10 +83,18 @@
         }
 
         .final-msg {
-            font-size: 4.5rem;
+            font-size: 4rem;
             margin-top: 40px;
             color: #ff0040;
             text-shadow: 3px 3px 0px white;
+            font-weight: bold;
+        }
+
+        .sad-msg {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            display: none;
         }
     </style>
 </head>
@@ -102,8 +109,8 @@
         </div>
         <h3>Are u ready to see something great?</h3>
         <button class="btn btn-yes" onclick="nextPage(2)">Yes!</button>
-        <button class="btn btn-no" onclick="showNoMessage()">No</button>
-        <p id="noMsg" style="display:none; font-weight:bold; margin-top:20px; font-size: 1.5rem;">so u dont love me? 🥺</p>
+        <button class="btn btn-no" onclick="showSadMsg(1)">No</button>
+        <p id="sadMsg1" class="sad-msg">so u dont love me? 🥺</p>
     </div>
 
     <div id="page2" class="container page">
@@ -114,7 +121,8 @@
         </video>
         <h3>Ready for one more surprise?</h3>
         <button class="btn btn-yes" onclick="nextPage(3)">Yes, show me!</button>
-        <button class="btn btn-no" onclick="alert('so u dont love me? 🥺')">No</button>
+        <button class="btn btn-no" onclick="showSadMsg(2)">No</button>
+        <p id="sadMsg2" class="sad-msg">so u dont love me? 🥺</p>
     </div>
 
     <div id="page3" class="container page">
@@ -127,38 +135,28 @@
 
     <script>
         function nextPage(pageNumber) {
-            // Hide all pages
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            // Show requested page
             document.getElementById('page' + pageNumber).classList.add('active');
             window.scrollTo(0,0);
         }
 
-        function showNoMessage() {
-            document.getElementById('noMsg').style.display = 'block';
+        function showSadMsg(pageNum) {
+            document.getElementById('sadMsg' + pageNum).style.display = 'block';
         }
 
-        // Heart Creator logic
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            // Randomly pick between different heart shapes
             const hearts = ['❤️', '💖', '💝', '💕'];
             heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-            
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+            heart.style.animationDuration = Math.random() * 2 + 4 + 's';
             heart.style.opacity = Math.random() * 0.5 + 0.5;
             heart.style.fontSize = Math.random() * 15 + 15 + 'px';
-            
             document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 7000);
+            setTimeout(() => { heart.remove(); }, 6000);
         }
 
-        // Spawn hearts every 400ms
         setInterval(createHeart, 400);
     </script>
 </body>
